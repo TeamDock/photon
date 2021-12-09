@@ -1,0 +1,101 @@
+.wrapper {
+    top: 0;
+    right: 0;
+    left: 0;
+    position: fixed;
+    height: 40px;
+    background-color: #121214;
+    color: white;
+    user-select: none;
+    app-region: drag;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    .start {
+        position: absolute;
+        left: 0;
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+
+        .macOSButtons {
+            .macOSbutton {
+                transition: 0.2s;
+                border: none;
+                app-region: no-drag;
+                cursor: pointer;
+                width: 16px;
+                height: 16px;
+                border-radius: 99999px;
+                margin-right: 2px;
+                margin-left: 2px;
+
+                :active {
+                    outline: none;
+                }
+            }
+
+            .macOSbutton:hover {
+                transition: 0.2s;
+                opacity: 0.6;
+            }
+        }
+    }
+
+    .middle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        p {
+            font-size: 15px;
+            color: #89899b;
+        }
+    }
+
+    .end {
+        position: absolute;
+        right: 0;
+        margin-right: 10px;
+        .buttons {
+            .button {
+                transition: 0.2s;
+                border: none;
+                background: transparent;
+                color: white;
+                app-region: no-drag;
+                cursor: pointer;
+
+                :active {
+                    outline: none;
+                }
+            }
+
+            .button:hover {
+                transition: 0.2s;
+                opacity: 0.6;
+            }
+        }
+    }
+
+    .menu {
+        transition: 0.2s;
+        border: none;
+        background: transparent;
+        color: white;
+        app-region: no-drag;
+        cursor: pointer;
+
+        :hover {
+            transition: 0.2s;
+            opacity: 0.6;
+        }
+
+        :active {
+            outline: none;
+        }
+    }
+}
