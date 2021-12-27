@@ -1,0 +1,22 @@
+{
+    "name": "default-theme",
+    "photonVersion": "0.1.0-beta",
+    "version": "1.1.0",
+    "author": "Dock - PFX",
+    "theme": {
+        "background": "#222226",
+        "cursor": "#EF5DA8"
+    },
+    "cursor": {
+        "width": 3,
+        "style": "bar"
+    },
+    "font": {
+        "size": 15,
+        "family": "Source Code Pro"
+    },
+    "taskbar": {
+        "background": "#222226"
+    },
+    "css": "./index.css"
+}

@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-import { useCurrentTheme } from '../ThemeController';
 
 // xterm
 import { Terminal } from 'xterm';
@@ -9,26 +8,40 @@ import { WebLinksAddon } from 'xterm-addon-web-links';
 import 'xterm/css/xterm.css';
 
 // store
-import { config } from '../../store';
+import { useConfig } from '../../hooks/useTheme';
+
+import { useCurrentTheme } from './api';
 
 const { ipcRenderer } = window.require('electron');
 
 function PhotonTerminal() {
+    const terminalShell = useConfig('shell');
+
+    // -- Shell
     useEffect(() => {
-        ipcRenderer.send('terminal.shell', config.get('shell'));
-    }, []);
+        ipcRenderer.send('terminal.shell', terminalShell);
+    }, [terminalShell]);
+
+    const configTheme = useConfig('photonTheme');
+    console.log(configTheme);
+    const [theme, setCurrentTheme] = useState(useCurrentTheme(configTheme));
+    const [term] = useState(new Terminal(theme));
+
+    // -- Theme
 
     useEffect(() => {
-        // xterm
-        const theme = useCurrentTheme();
-        const term = new Terminal({
-            theme: theme?.theme,
-            cursorWidth: theme?.cursor?.width,
-            cursorStyle: 'bar',
-            fontFamily: theme?.font?.fontFamily,
-            fontSize: theme?.font?.fontSize,
+        const currentTheme = useCurrentTheme(configTheme);
+        setCurrentTheme(currentTheme);
+
+        console.log(currentTheme);
+
+        Object.keys(currentTheme).forEach((option) => {
+            type OptionKey = keyof typeof currentTheme;
+            term.setOption(option, currentTheme[option as OptionKey]);
         });
+    }, [configTheme]);
 
+    useEffect(() => {
         // Addons
         const fitAddon = new FitAddon();
         const weblinks = new WebLinksAddon();
@@ -62,6 +75,8 @@ function PhotonTerminal() {
             ipcRenderer.send('terminal.resize', fitAddon.proposeDimensions());
         }
     }, []);
+
+    // -- xterm
 
     useEffect(() => {
         const xterm = document.querySelector('.xterm-viewport');

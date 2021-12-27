@@ -2,11 +2,12 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+    name: 'photon-app',
+    entry: './src/index.tsx',
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
         mainFields: ['main', 'module', 'browser'],
     },
-    entry: './src/index.tsx',
     target: 'electron-renderer',
     devtool: 'source-map',
     module: {

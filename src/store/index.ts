@@ -1,7 +1,7 @@
 import { JSONSchemaType } from 'json-schema-typed';
 import StoreType from 'electron-store';
 import path from 'path';
-import { ElectronRemote } from '../@types/@electron/remote';
+import { ElectronRemote } from '../@types/electron/remote';
 
 const Store = window.require('electron-store') as typeof StoreType;
 const { app } = window.require('@electron/remote') as ElectronRemote;
@@ -14,7 +14,7 @@ const schema = {
     },
     photonTheme: {
         type: JSONSchemaType.String,
-        default: 'defaulttheme',
+        default: 'default-theme',
     },
 
     shell: {

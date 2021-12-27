@@ -1,11 +1,12 @@
 const path = require('path');
 
 module.exports = {
+    name: 'photon-app',
+    entry: './app/main.ts',
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
     },
     devtool: 'source-map',
-    entry: './app/main.ts',
     target: 'electron-main',
     externals: {
         'node-pty': 'commonjs2 node-pty',

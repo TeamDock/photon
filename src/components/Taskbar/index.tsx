@@ -10,10 +10,7 @@ import {
     HiOutlineMenu,
 } from 'react-icons/hi';
 
-import { ElectronRemote } from '../../@types/@electron/remote';
-const { getCurrentWindow } = window.require(
-    '@electron/remote'
-) as ElectronRemote;
+const { getCurrentWindow } = window.require('@electron/remote');
 
 type TaskbarProps = {
     title?: string;
@@ -55,7 +52,7 @@ function Taskbar({ title }: TaskbarProps) {
     }, [useMacOSWindowActionButtons]);
 
     return (
-        <div className={styles.wrapper}>
+        <div id="taskbar" className={styles.wrapper}>
             <div className={styles.start}>
                 {/* {!shouldUseMacOSWindowActions && (
                     <button className={styles.menu}>

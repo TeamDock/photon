@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { config, schema } from '../store/index';
+import { config, schema } from '../store';
 
 type Schema = typeof schema;
 

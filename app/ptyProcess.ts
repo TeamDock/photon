@@ -1,5 +1,5 @@
 import { win } from './main';
-import { spawn } from 'node-pty';
+import { IPty, spawn } from 'node-pty';
 import { app, ipcMain } from 'electron';
 
 type ptyProcessProps = {
@@ -8,12 +8,15 @@ type ptyProcessProps = {
 };
 
 export default function ({ app, ipcMain }: ptyProcessProps) {
+    let ptyProcess: IPty;
+
     ipcMain.on('terminal.shell', (e, shell) => {
-        const ptyProcess = spawn(shell, [], {
+        if (ptyProcess) ptyProcess.kill();
+        ptyProcess = spawn(shell, [], {
             name: 'photon-terminal',
             cols: 80,
             rows: 24,
-            cwd: app.getPath('home'),
+            cwd: process.cwd(),
         });
 
         ptyProcess.onData((e) => {

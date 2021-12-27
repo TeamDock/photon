@@ -11,6 +11,20 @@ initialize();
 
 let win: BrowserWindow;
 
+if (
+    !fs.existsSync(
+        path.join(
+            app.getPath('appData'),
+            'photon',
+            'Themes',
+            'default-theme',
+            'theme.json'
+        )
+    )
+) {
+    installDefaultTheme();
+}
+
 function createWindow() {
     win = new BrowserWindow({
         width: 1116,
@@ -22,7 +36,7 @@ function createWindow() {
             plugins: true,
             sandbox: false,
         },
-        icon: path.join(__dirname, '..', 'assets', 'Icon.png'),
+        icon: path.join(__dirname, '..', 'assets', 'icon.png'),
         minWidth: 200,
         minHeight: 100,
     });
@@ -43,20 +57,6 @@ function createWindow() {
 
 app.on('ready', () => {
     createWindow();
-
-    if (
-        !fs.existsSync(
-            path.join(
-                app.getPath('appData'),
-                'photon',
-                'themes',
-                'default',
-                'theme.json'
-            )
-        )
-    ) {
-        installDefaultTheme();
-    }
 });
 
 app.on('window-all-closed', () => {
@@ -69,10 +69,22 @@ app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
 });
 
+app.on('quit', () => {
+    app.quit();
+});
+
 function installDefaultTheme() {
+    const themesPath = isDev
+        ? path.join(__dirname, '..', 'app', 'Themes')
+        : path.join(__dirname, '..', '..', 'Themes');
+
+    fs.mkdirSync(path.join(app.getPath('appData'), 'photon', 'Themes'), {
+        recursive: true,
+    });
+
     copySync(
-        path.join(__dirname, 'themes', 'default'),
-        path.join(app.getPath('appData'), 'photon', 'themes', 'default')
+        path.join(themesPath, 'default-theme'),
+        path.join(app.getPath('appData'), 'photon', 'Themes', 'default-theme')
     );
 }
 
