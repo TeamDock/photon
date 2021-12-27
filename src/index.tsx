@@ -6,7 +6,7 @@ import { Taskbar } from './components/Taskbar';
 function AppRender() {
     return (
         <>
-            <Taskbar title="0.1.0-beta" />
+            <Taskbar title="0.2.0-beta" />
             <App />
         </>
     );

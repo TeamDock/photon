@@ -32,7 +32,7 @@ function getCurrentTheme() {
             return JSON.parse(
                 fs
                     .readFileSync(
-                        path.join(themesPath, 'default', 'theme.json')
+                        path.join(themesPath, 'default-theme', 'theme.json')
                     )
                     .toString()
             ) as ThemeType;

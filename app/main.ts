@@ -6,6 +6,7 @@ import { initialize, enable } from '@electron/remote/main';
 import { BrowserWindow, app, ipcMain } from 'electron';
 import ptyProcess from './ptyProcess';
 import resize from './resize';
+import { installCLI } from './install-cli';
 
 initialize();
 
@@ -53,6 +54,7 @@ function createWindow() {
     // Modules
     ptyProcess({ app, ipcMain });
     resize();
+    if (!isDev) installCLI();
 }
 
 app.on('ready', () => {
@@ -88,4 +90,4 @@ function installDefaultTheme() {
     );
 }
 
-export { win };
+export { win, app };

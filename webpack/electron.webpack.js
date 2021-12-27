@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     name: 'photon-app',
@@ -11,6 +12,7 @@ module.exports = {
     externals: {
         'node-pty': 'commonjs2 node-pty',
     },
+    plugins: [new webpack.ExternalsPlugin('commonjs', ['native-reg'])],
     module: {
         rules: [
             {
