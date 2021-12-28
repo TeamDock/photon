@@ -1,6 +1,6 @@
 <p align="center">
   <a aria-label="Photon logo" href="https://github.com/TeamDock/photon">
-    <img height="95" src="https://raw.githubusercontent.com/TeamDock/photon/main/assets/Icon.png">
+    <img height="95" src="https://raw.githubusercontent.com/TeamDock/photon/main/assets/icon.png">
   </a>
 
   <p align="center" style="font-size: 25px;" >Photon</p>
