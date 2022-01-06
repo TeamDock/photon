@@ -38,6 +38,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, '..', 'dist', 'renderer'),
         filename: 'js/[name].js',
+        crossOriginLoading: 'anonymous',
     },
     plugins: [
         new HtmlWebpackPlugin({

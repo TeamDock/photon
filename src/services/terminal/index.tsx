@@ -23,7 +23,6 @@ function PhotonTerminal() {
     }, [terminalShell]);
 
     const configTheme = useConfig('photonTheme');
-    console.log(configTheme);
     const [theme, setCurrentTheme] = useState(useCurrentTheme(configTheme));
     const [term] = useState(new Terminal(theme));
 
@@ -32,8 +31,6 @@ function PhotonTerminal() {
     useEffect(() => {
         const currentTheme = useCurrentTheme(configTheme);
         setCurrentTheme(currentTheme);
-
-        console.log(currentTheme);
 
         Object.keys(currentTheme).forEach((option) => {
             type OptionKey = keyof typeof currentTheme;

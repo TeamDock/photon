@@ -1,5 +1,8 @@
 import path from 'path';
 import fs from 'fs';
+import axios from 'axios';
+import { useState } from 'react';
+
 import { IThemeType, ThemeType } from '../../../@types/theme';
 import { ITerminalOptions } from 'xterm';
 
@@ -74,6 +77,7 @@ function loadTheme(theme: IThemeType) {
 
         const head = document.getElementsByTagName('head')[0];
         const style = document.createElement('style');
+        style.id = `themeStyle-${theme.name}-${theme.version}`;
         style.innerHTML = cssFile;
 
         head.appendChild(style);

@@ -1,6 +1,6 @@
 {
     "name": "photon",
-    "version": "0.2.0-beta",
+    "version": "0.2.1-beta",
     "main": "./dist/main.js",
     "license": "MIT",
     "private": true,
@@ -20,6 +20,7 @@
         "electron:start": "wait-on http://localhost:3000 && webpack --config ./webpack/electron.webpack.js --mode development && electron .",
         "build": "npm run electron:build && npm run react:build && npm run cli:build",
         "release": "npm run build && electron-builder --win",
+        "release:docker": "npm run build && node ./scripts/release-docker.js",
         "rebuild": "electron-rebuild"
     },
     "dependencies": {
@@ -32,6 +33,7 @@
         "electron-is-dev": "^2.0.0",
         "electron-store": "^8.0.1",
         "find-process": "^1.4.7",
+        "fontfaceobserver": "^2.1.0",
         "fs-extra": "^10.0.0",
         "json-schema-typed": "^7.0.3",
         "native-reg": "^1.0.0",
@@ -55,6 +57,7 @@
         "@babel/preset-typescript": "^7.16.0",
         "@types/args": "^5.0.0",
         "@types/electron": "^1.6.10",
+        "@types/fontfaceobserver": "^2.1.0",
         "@types/node": "^16.11.12",
         "@types/ora": "^3.2.0",
         "@types/react": "^17.0.37",

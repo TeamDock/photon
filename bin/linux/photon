@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Used from https://github.com/vercel/hyper/blob/canary/build/linux/hyper (adapted)
+
+if [ "$(id -u)" = "0" ]; then
+    for i in $@
+    do
+        if [[ $i == --user-data-dir=* ]]; then
+            DATA_DIR_SET=1
+        fi
+    done
+
+    if [ -z $DATA_DIR_SET ]; then
+		echo "It is recommended to start Photon as a normal user. To run as root, you must specify an alternate user data directory with the --user-data-dir argument." 1>&2
+		exit 1
+	fi
+fi
+
+if [ ! -L $0 ]; then
+	PHOTON_PATH="$(dirname $0)/../.."
+else
+	if which readlink >/dev/null; then
+		PHOTON_PATH="$(dirname $(readlink -f $0))/../.."
+	else
+		PHOTON_PATH="/opt/Photon"
+	fi
+fi
+
+ELECTRON="$HYPER_PATH/photon"
+CLI="$HYPER_PATH/resources/bin/cli.js"
+ELECTRON_RUN_AS_NODE=1 "$ELECTRON" "$CLI" "$@"
+exit $?
