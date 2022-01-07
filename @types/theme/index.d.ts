@@ -23,8 +23,4 @@ type ThemeType = {
     css?: string;
 };
 
-type IThemeType = ThemeType & {
-    path: string;
-};
-
-export { ThemeType, IThemeType };
+export { ThemeType };

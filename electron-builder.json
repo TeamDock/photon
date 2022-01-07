@@ -52,9 +52,11 @@
                         "x64"
                     ]
                 }
-            ]
+            ],
+            "icon": "./assets/icon.icns"
         },
         "mac": {
+            "icon": "./assets/icon.icns",
             "target": {
                 "target": "default",
                 "arch": [

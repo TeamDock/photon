@@ -7,25 +7,29 @@ import { BrowserWindow, app, ipcMain } from 'electron';
 import ptyProcess from './ptyProcess';
 import resize from './resize';
 import { installCLI } from './install-cli';
+import { appDataDefaultThemeJson, themesPath } from './utils/paths';
+import { ThemeType } from '../@types/theme';
 
 initialize();
 
 let win: BrowserWindow;
 
-if (
-    !fs.existsSync(
-        path.join(
-            app.getPath('appData'),
-            'photon',
-            'Themes',
-            'default-theme',
-            'theme.json'
-        )
-    )
-) {
-    installDefaultTheme();
-}
+const themeJson = JSON.parse(
+    fs
+        .readFileSync(path.join(themesPath, 'default-theme', 'theme.json'))
+        .toString()
+) as ThemeType;
 
+if (!fs.existsSync(appDataDefaultThemeJson)) {
+    installDefaultTheme();
+} else if (
+    (
+        JSON.parse(
+            fs.readFileSync(appDataDefaultThemeJson).toString()
+        ) as ThemeType
+    ).version !== themeJson.version
+)
+    installDefaultTheme();
 function createWindow() {
     win = new BrowserWindow({
         width: 1116,
@@ -76,9 +80,7 @@ app.on('quit', () => {
 });
 
 function installDefaultTheme() {
-    const themesPath = isDev
-        ? path.join(__dirname, '..', 'app', 'Themes')
-        : path.join(__dirname, '..', '..', 'Themes');
+    console.log('Installing theme');
 
     fs.mkdirSync(path.join(app.getPath('appData'), 'photon', 'Themes'), {
         recursive: true,

@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 
 // xterm
-import { Terminal } from 'xterm';
+import { ITerminalOptions, Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import { WebLinksAddon } from 'xterm-addon-web-links';
+import { WebglAddon } from 'xterm-addon-webgl';
 import 'xterm/css/xterm.css';
 
 // store
@@ -16,42 +17,41 @@ const { ipcRenderer } = window.require('electron');
 
 function PhotonTerminal() {
     const terminalShell = useConfig('shell');
+    const configTheme = useConfig('photonTheme');
 
     // -- Shell
     useEffect(() => {
         ipcRenderer.send('terminal.shell', terminalShell);
     }, [terminalShell]);
 
-    const configTheme = useConfig('photonTheme');
-    const [theme, setCurrentTheme] = useState(useCurrentTheme(configTheme));
-    const [term] = useState(new Terminal(theme));
-
-    // -- Theme
+    // xterm
+    const currentTheme = useCurrentTheme(configTheme);
+    const [term] = useState<Terminal>(new Terminal(currentTheme));
 
     useEffect(() => {
-        const currentTheme = useCurrentTheme(configTheme);
-        setCurrentTheme(currentTheme);
-
+        if (!currentTheme) return;
         Object.keys(currentTheme).forEach((option) => {
             type OptionKey = keyof typeof currentTheme;
             term.setOption(option, currentTheme[option as OptionKey]);
         });
-    }, [configTheme]);
+    }, [currentTheme]);
 
     useEffect(() => {
-        // Addons
         const fitAddon = new FitAddon();
         const weblinks = new WebLinksAddon();
+        const webgl = new WebglAddon();
 
         term.loadAddon(fitAddon);
         term.loadAddon(weblinks);
-
-        // ---
 
         const terminalElement = document.getElementById('terminal');
 
         if (terminalElement) {
             term.open(terminalElement);
+            term.loadAddon(webgl);
+            webgl.onContextLoss(() => {
+                webgl.dispose();
+            });
             fitAddon.fit();
             ipcRenderer.send('terminal.resize', fitAddon.proposeDimensions());
 
@@ -73,13 +73,68 @@ function PhotonTerminal() {
         }
     }, []);
 
-    // -- xterm
-
     useEffect(() => {
         const xterm = document.querySelector('.xterm-viewport');
 
         xterm?.setAttribute('class', 'xterm-viewport terminal-screen');
     }, []);
+    //     const [theme, setCurrentTheme] = useState(useCurrentTheme(configTheme));
+    //     const [term] = useState(new Terminal(theme));
+
+    //     // -- Theme
+
+    //     useEffect(() => {
+    //         const currentTheme = useCurrentTheme(configTheme);
+    //         setCurrentTheme(currentTheme);
+
+    //         Object.keys(currentTheme).forEach((option) => {
+    //             type OptionKey = keyof typeof currentTheme;
+    //             term.setOption(option, currentTheme[option as OptionKey]);
+    //         });
+    //     }, [configTheme]);
+
+    //     useEffect(() => {
+    //         // Addons
+    //         const fitAddon = new FitAddon();
+    //         const weblinks = new WebLinksAddon();
+
+    //         term.loadAddon(fitAddon);
+    //         term.loadAddon(weblinks);
+
+    //         // ---
+
+    //         const terminalElement = document.getElementById('terminal');
+
+    //         if (terminalElement) {
+    //             term.open(terminalElement);
+    //             fitAddon.fit();
+    //             ipcRenderer.send('terminal.resize', fitAddon.proposeDimensions());
+
+    //             term.onData((e) => {
+    //                 ipcRenderer.send('terminal.toTerm', e);
+    //             });
+
+    //             ipcRenderer.on('terminal.incData', function (e, data) {
+    //                 term.write(data);
+    //             });
+    //         }
+
+    //         // ---
+    //         ipcRenderer.on('window.resized', resize);
+
+    //         function resize() {
+    //             fitAddon.fit();
+    //             ipcRenderer.send('terminal.resize', fitAddon.proposeDimensions());
+    //         }
+    //     }, []);
+
+    //     // -- xterm
+
+    //     useEffect(() => {
+    //         const xterm = document.querySelector('.xterm-viewport');
+
+    //         xterm?.setAttribute('class', 'xterm-viewport terminal-screen');
+    //     }, []);
 
     return <div id="terminal" className={styles.wrapper} />;
 }

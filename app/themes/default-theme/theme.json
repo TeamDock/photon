@@ -1,7 +1,7 @@
 {
     "name": "default-theme",
     "photonVersion": "0.1.0-beta",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "author": "Dock - PFX",
     "theme": {
         "background": "#222226",
@@ -13,7 +13,7 @@
     },
     "font": {
         "size": 15,
-        "family": "Source Code Pro"
+        "family": "'Source Code Pro', monospace"
     },
     "taskbar": {
         "background": "#222226"

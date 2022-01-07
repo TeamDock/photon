@@ -39,6 +39,8 @@ You can use Docker to generate all binaries, follow the step by step:
   2. Download the *electronuserland/builder* image: `docker pull electronuserland/builder`
   3. Run: `npm run release:docker`
 
+*or you can use `npm run release`, but, is not recomended.*
+
 After that, you will see the binary in the `./release` folder!
 
 # Cli
