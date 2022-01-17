@@ -13,7 +13,8 @@
     },
     "font": {
         "size": 15,
-        "family": "'Source Code Pro', monospace"
+        "family": "'Source Code Pro', monospace",
+        "weight": 400
     },
     "taskbar": {
         "background": "#222226"

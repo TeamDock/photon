@@ -1,6 +1,7 @@
 import { win } from './main';
 import { IPty, spawn } from 'node-pty';
 import { app, ipcMain } from 'electron';
+import findProcess from 'find-process';
 
 type ptyProcessProps = {
     app: typeof app;
@@ -17,6 +18,12 @@ export default function ({ app, ipcMain }: ptyProcessProps) {
             cols: 80,
             rows: 24,
             cwd: process.cwd(),
+        });
+
+        console.log(ptyProcess.pid);
+
+        findProcess('pid', ptyProcess.pid).then((data) => {
+            win.webContents.send('terminal.info', data[0]);
         });
 
         ptyProcess.onData((e) => {

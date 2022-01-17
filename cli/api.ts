@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import ora from 'ora';
 import getAppDataPath from 'appdata-path';
 import { ThemeType } from '../@types/theme';
+import { isInstalledTheme, isTheme, isThemePath } from './utils';
 
 function install(plugin: string) {
     preparePlugin(plugin);
@@ -160,22 +161,6 @@ function getPathWithPluginInstalled(theme: string, isTheme?: boolean) {
     );
 
     return fs.existsSync(pluginPath) ? pluginPath : null;
-}
-
-function isThemePath(themePath: string) {
-    return fs.existsSync(path.join(themePath, 'theme.json'));
-}
-
-function isTheme(theme: string) {
-    return fs.existsSync(
-        path.join(getAppDataPath(), 'photon', 'Themes', theme, 'theme.json')
-    );
-}
-
-function isInstalledTheme(theme: string) {
-    return fs.existsSync(
-        path.join(getAppDataPath(), 'photon', 'Themes', theme)
-    );
 }
 
 export { install };

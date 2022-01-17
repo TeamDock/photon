@@ -32,7 +32,7 @@ module.exports = {
     devServer: {
         historyApiFallback: true,
         compress: true,
-        hot: true,
+        hot: false,
         port: 3000,
     },
     output: {

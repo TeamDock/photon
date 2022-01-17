@@ -9,7 +9,7 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     },
-    devtool: isDev ? 'cheap-module-source-map' : false,
+    devtool: 'cheap-module-source-map',
     mode: 'none',
     target: 'node',
     module: {
