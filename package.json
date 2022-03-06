@@ -13,9 +13,9 @@
     "scripts": {
         "dev": "concurrently -k \"yarn start:react\" \"wait-on http://localhost:3000 && yarn start:electron\"",
         "start:react": "webpack-dev-server --config ./webpack/react.webpack.js --mode development",
-        "start:electron": "tsc --project ./app/tsconfig.json && electronmon .",
+        "start:electron": "webpack --config ./webpack/electron.webpack.js --mode development && electronmon .",
         "build": "yarn build:react && yarn build:electron && yarn build:cli",
-        "build:electron": "tsc --project ./app/tsconfig.json",
+        "build:electron": "webpack --config ./webpack/electron.webpack.js --mode production",
         "build:react": "webpack --config ./webpack/react.webpack.js --mode production",
         "build:cli": "cross-env NODE_ENV=production webpack --config ./webpack/cli.webpack.js --mode production",
         "release": "yarn build && electron-builder --win",

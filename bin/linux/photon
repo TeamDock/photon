@@ -25,7 +25,7 @@ else
 	fi
 fi
 
-ELECTRON="$HYPER_PATH/photon"
-CLI="$HYPER_PATH/resources/bin/cli.js"
+ELECTRON="$PHOTON_PATH/photon"
+CLI="$PHOTON_PATH/resources/bin/cli.js"
 ELECTRON_RUN_AS_NODE=1 "$ELECTRON" "$CLI" "$@"
 exit $?

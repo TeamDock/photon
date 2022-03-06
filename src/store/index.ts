@@ -1,11 +1,8 @@
 import { JSONSchemaType } from 'json-schema-typed';
-import StoreType from 'electron-store';
 import path from 'path';
-import { ElectronRemote } from '../@types/electron/remote';
-
-const Store = window.require('electron-store') as typeof StoreType;
-const { app } = window.require('@electron/remote') as ElectronRemote;
-const os = window.require('os');
+import Store from 'electron-store';
+import os from 'os';
+import getAppDataPath from 'appdata-path';
 
 const schema = {
     useMacOSWindowActionButtons: {
@@ -27,7 +24,7 @@ const config = new Store({
     schema,
     watch: true,
     configFileMode: 0o666,
-    cwd: path.join(app.getPath('appData'), 'photon', 'config'),
+    cwd: path.join(getAppDataPath('photon'), 'config'),
 });
 
 export { schema, config };

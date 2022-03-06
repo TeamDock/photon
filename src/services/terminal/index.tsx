@@ -66,6 +66,8 @@ function PhotonTerminal() {
             ipcRenderer.on('terminal.incData', function (e, data) {
                 term.write(data);
             });
+
+            resize();
         }
 
         // ---

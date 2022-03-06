@@ -1,4 +1,4 @@
-import { win } from '../main';
+import { win, app } from '../main';
 import { IPty, spawn } from 'node-pty';
 import { IpcMain } from 'electron';
 import findProcess from 'find-process';
@@ -7,11 +7,7 @@ export default function (ipcMain: IpcMain) {
     let ptyProcess: IPty;
 
     ipcMain.on('terminal.shell', (e, shell: string) => {
-        if (ptyProcess) {
-            ipcMain.removeAllListeners('terminal.toTerm');
-            ipcMain.removeAllListeners('terminal.resize');
-            ptyProcess.kill();
-        }
+        disposePTY();
         ptyProcess = spawn(shell, [], {
             name: 'photon-terminal',
             cols: 80,
@@ -35,4 +31,16 @@ export default function (ipcMain: IpcMain) {
             ptyProcess.resize(data.cols, data.rows);
         });
     });
+
+    app.on('before-quit', () => {
+        disposePTY();
+    });
+
+    function disposePTY() {
+        if (ptyProcess) {
+            ipcMain.removeAllListeners('terminal.toTerm');
+            ipcMain.removeAllListeners('terminal.resize');
+            ptyProcess.kill();
+        }
+    }
 }

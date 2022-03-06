@@ -3,6 +3,7 @@ import { getCurrentTheme } from '../utils/getCurrentTheme';
 
 export default function () {
     snapResize();
+    sendWindowResized();
 
     win.on('maximize', sendWindowResized);
     win.on('unmaximize', sendWindowResized);
