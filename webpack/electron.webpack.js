@@ -9,10 +9,9 @@ module.exports = {
     },
     devtool: 'source-map',
     target: 'electron-main',
-    externals: {
-        'node-pty': 'commonjs2 node-pty',
-    },
-    plugins: [new webpack.ExternalsPlugin('commonjs', ['native-reg'])],
+    plugins: [
+        new webpack.ExternalsPlugin('commonjs', ['native-reg', 'node-pty']),
+    ],
     module: {
         rules: [
             {

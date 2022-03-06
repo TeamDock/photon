@@ -1,5 +1,5 @@
-import { win } from './main';
-import { getCurrentTheme } from './utils/getCurrentTheme';
+import { win } from '../main';
+import { getCurrentTheme } from '../utils/getCurrentTheme';
 
 export default function () {
     snapResize();
@@ -12,6 +12,7 @@ export default function () {
     });
 
     function sendWindowResized() {
+        console.log('Sending window.resized to renderer process');
         win.webContents.send('window.resized');
     }
 

@@ -3,7 +3,7 @@
 import * as Registry from 'native-reg';
 import path from 'path';
 import fs from 'fs';
-import { app } from './main';
+import { app } from '../main';
 import sudoPrompt from 'sudo-prompt';
 import { mkdirpSync } from 'fs-extra';
 import { clipboard, dialog } from 'electron';

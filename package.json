@@ -1,10 +1,9 @@
 {
     "name": "photon",
-    "version": "0.2.3-beta",
+    "version": "0.3.0-beta",
     "main": "./dist/main.js",
     "license": "MIT",
     "private": true,
-    "homepage": "./",
     "repository": "https://github.com/TeamDock/photon",
     "description": "A simple terminal using Electron",
     "author": {
@@ -12,19 +11,21 @@
         "email": "contato.pedrinfx@gmail.com"
     },
     "scripts": {
-        "dev": "concurrently -k \"cross-env BROWSER=none npm run react:start\" \"npm run electron:start\"",
-        "react:build": "cross-env NODE_ENV=production webpack --config ./webpack/react.webpack.js --mode production",
-        "electron:build": "cross-env NODE_ENV=production webpack --config ./webpack/electron.webpack.js --mode production",
-        "cli:build": "cross-env NODE_ENV=production webpack --config ./webpack/cli.webpack.js --mode production",
-        "react:start": "webpack-dev-server --config ./webpack/react.webpack.js --mode development",
-        "electron:start": "wait-on http://localhost:3000 && webpack --config ./webpack/electron.webpack.js --mode development && electronmon .",
-        "build": "npm run electron:build && npm run react:build && npm run cli:build",
-        "release": "npm run build && electron-builder --win",
-        "release:docker": "npm run build && node ./scripts/release-docker.js",
-        "rebuild": "electron-rebuild"
+        "dev": "concurrently -k \"yarn start:react\" \"wait-on http://localhost:3000 && yarn start:electron\"",
+        "start:react": "webpack-dev-server --config ./webpack/react.webpack.js --mode development",
+        "start:electron": "tsc --project ./app/tsconfig.json && electronmon .",
+        "build": "yarn build:react && yarn build:electron && yarn build:cli",
+        "build:electron": "tsc --project ./app/tsconfig.json",
+        "build:react": "vite build",
+        "build:cli": "cross-env NODE_ENV=production webpack --config ./webpack/cli.webpack.js --mode production",
+        "release": "yarn build && electron-builder --win",
+        "release:docker": "yarn build && node ./scripts/release-docker.js",
+        "rebuild": "electron-rebuild",
+        "commit": "cz"
     },
     "dependencies": {
         "@electron/remote": "^2.0.1",
+        "@vitejs/plugin-react": "^1.2.0",
         "appdata-path": "^1.0.0",
         "args": "^5.0.1",
         "axios": "^0.24.0",
@@ -48,6 +49,7 @@
         "sass": "^1.43.5",
         "shebang-loader": "^0.0.1",
         "sudo-prompt": "^9.2.1",
+        "vite": "^2.8.6",
         "xterm": "^4.16.0",
         "xterm-addon-fit": "^0.5.0",
         "xterm-addon-web-links": "^0.4.0",
@@ -69,9 +71,11 @@
         "@typescript-eslint/eslint-plugin": "^5.4.0",
         "@typescript-eslint/parser": "^5.4.0",
         "babel-loader": "^8.2.3",
+        "commitizen": "^4.2.4",
         "concurrently": "^6.4.0",
         "cross-env": "^7.0.3",
         "css-loader": "^6.5.1",
+        "cz-conventional-changelog": "3.3.0",
         "electron": "^16.0.6",
         "electron-builder": "^22.14.5",
         "electron-rebuild": "^3.2.5",
@@ -94,5 +98,10 @@
         "webpack": "^5.65.0",
         "webpack-cli": "^4.9.1",
         "webpack-dev-server": "^4.6.0"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
     }
 }

@@ -6,4 +6,3 @@ dist
 
 bin/cli.js
 bin/cli.js.LICENSE.txt
-yarn.lock

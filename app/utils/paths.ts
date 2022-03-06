@@ -11,7 +11,7 @@ const appDataDefaultThemeJson = path.join(
 );
 
 const themesPath = isDev
-    ? path.join(__dirname, '..', 'app', 'themes')
+    ? path.join(__dirname, '..', '..', 'app', 'themes')
     : path.join(__dirname, '..', '..', 'themes');
 
 export { appDataDefaultThemeJson, themesPath };

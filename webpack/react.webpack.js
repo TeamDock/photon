@@ -30,15 +30,12 @@ module.exports = {
         ],
     },
     devServer: {
-        historyApiFallback: true,
-        compress: true,
-        hot: false,
+        hot: true,
         port: 3000,
     },
     output: {
-        path: path.resolve(__dirname, '..', 'dist', 'renderer'),
+        path: path.join(__dirname, '..', 'dist', 'renderer'),
         filename: 'js/[name].js',
-        crossOriginLoading: 'anonymous',
     },
     plugins: [
         new HtmlWebpackPlugin({

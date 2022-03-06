@@ -4,32 +4,42 @@ import { copySync } from 'fs-extra';
 import isDev from 'electron-is-dev';
 import { initialize, enable } from '@electron/remote/main';
 import { BrowserWindow, app, ipcMain } from 'electron';
-import ptyProcess from './ptyProcess';
-import resize from './resize';
-import { installCLI } from './install-cli';
+import ptyProcess from './modules/ptyProcess';
+import resize from './modules/resize';
+import { installCLI } from './modules/install-cli';
 import { appDataDefaultThemeJson, themesPath } from './utils/paths';
 import { ThemeType } from '../@types/theme';
+import { initRenderer } from 'electron-store';
 
 initialize();
+initRenderer();
 
 let win: BrowserWindow;
 
+console.log('Checking default-theme');
 const themeJson = JSON.parse(
     fs
         .readFileSync(path.join(themesPath, 'default-theme', 'theme.json'))
         .toString()
 ) as ThemeType;
 
-if (!fs.existsSync(appDataDefaultThemeJson)) {
-    installDefaultTheme();
-} else if (
+if (
+    !fs.existsSync(appDataDefaultThemeJson) ||
     (
         JSON.parse(
             fs.readFileSync(appDataDefaultThemeJson).toString()
         ) as ThemeType
     ).version !== themeJson.version
-)
+) {
     installDefaultTheme();
+}
+
+console.log('Disabling Chromium GPU blacklist');
+app.commandLine.appendSwitch('ignore-gpu-blacklist');
+
+// console.log('Disabling Hardware acceleration');
+// app.disableHardwareAcceleration();
+
 function createWindow() {
     win = new BrowserWindow({
         width: 1116,
@@ -46,17 +56,18 @@ function createWindow() {
         minHeight: 100,
     });
 
-    enable(win.webContents);
+    if (isDev) win.webContents.openDevTools({ mode: 'detach' });
+
     win.loadURL(
         isDev
             ? 'http://localhost:3000'
             : `file://${path.join(__dirname, 'renderer', 'index.html')}`
     );
 
-    if (isDev) win.webContents.openDevTools({ mode: 'detach' });
+    enable(win.webContents);
 
     // Modules
-    ptyProcess({ app, ipcMain });
+    ptyProcess(ipcMain);
     resize();
     if (!isDev) installCLI();
 }
@@ -80,7 +91,7 @@ app.on('quit', () => {
 });
 
 function installDefaultTheme() {
-    console.log('Installing theme');
+    console.log('Installing default-theme');
 
     fs.mkdirSync(path.join(app.getPath('appData'), 'photon', 'Themes'), {
         recursive: true,

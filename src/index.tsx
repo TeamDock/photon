@@ -8,11 +8,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const { ipcRenderer } = window.require('electron');
 function AppRender() {
-    const [title, setTitle] = useState<string>('0.2.2-beta');
+    const [title, setTitle] = useState<string>('0.3.0-beta');
 
-    ipcRenderer.on('terminal.info', (e, data) => {
-        setTitle(data.bin);
-    });
+    // ipcRenderer.on('terminal.info', (e, data) => {
+    //     setTitle(data.bin);
+    // });
     return (
         <>
             <Taskbar title={title} />

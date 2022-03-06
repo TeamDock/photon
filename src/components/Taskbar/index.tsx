@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import styles from './styles.module.scss';
 import os from 'os';
-import { useConfig } from '../../hooks/useTheme';
+import { useConfig } from '../../hooks/useConfig';
 
 import {
     HiX,

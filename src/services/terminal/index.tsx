@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 
 // xterm
-import { ITerminalOptions, Terminal } from 'xterm';
+import { IDisposable, ITerminalOptions, Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 import { WebglAddon } from 'xterm-addon-webgl';
 import 'xterm/css/xterm.css';
 
 // store
-import { useConfig } from '../../hooks/useTheme';
+import { useConfig } from '../../hooks/useConfig';
 
 import { useCurrentTheme } from './api';
 
@@ -25,7 +25,7 @@ function PhotonTerminal() {
     }, [terminalShell]);
 
     // xterm
-    const currentTheme = useCurrentTheme(configTheme);
+    const currentTheme = useCurrentTheme(configTheme ?? 'default-theme');
     const [term] = useState<Terminal>(new Terminal(currentTheme));
 
     useEffect(() => {
